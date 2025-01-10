@@ -1,0 +1,29 @@
+public class Main {
+    public static void main(String[] args) {
+        MessageQueue queue = new MessageQueue(10);  // Create a queue with a capacity of 10
+        Producer producer = new Producer(queue);
+        Consumer consumer = new Consumer(queue);
+
+        // Start producer and consumer threads
+        Thread producerThread = new Thread(producer);
+        Thread consumerThread = new Thread(consumer);
+
+        producerThread.start();
+        consumerThread.start();
+
+        // Run for 10 seconds and then stop
+        try {
+            Thread.sleep(10000);  // Run for 10 seconds
+            producerThread.interrupt();
+            consumerThread.interrupt();
+            producerThread.join();
+            consumerThread.join();
+
+            // Output the results
+            System.out.println("Total successful messages: " + consumer.getSuccessfulMessages());
+            System.out.println("Total error messages: " + consumer.getErrorMessages());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
