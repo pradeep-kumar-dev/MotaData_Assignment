@@ -1,0 +1,23 @@
+public class Producer implements Runnable {
+    private final MessageQueue queue;
+    private int messageCount;
+
+    public Producer(MessageQueue queue) {
+        this.queue = queue;
+        this.messageCount = 0;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                String message = "Message " + messageCount++;
+                queue.produce(message);  // Produce a message and add to queue
+                System.out.println("Produced: " + message);
+                Thread.sleep(1000);  // Simulate delay in production
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();  // Handle thread interruption
+        }
+    }
+}
