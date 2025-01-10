@@ -1,0 +1,44 @@
+public class Consumer implements Runnable {
+    private final MessageQueue queue;
+    private int successfulMessages;
+    private int errorMessages;
+
+    public Consumer(MessageQueue queue) {
+        this.queue = queue;
+        this.successfulMessages = 0;
+        this.errorMessages = 0;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                String message = queue.consume();  // Consume a message from the queue
+                if (processMessage(message)) {
+                    successfulMessages++;  // Track successful processing
+                    System.out.println("Successfully consumed: " + message);
+                } else {
+                    errorMessages++;  // Track processing errors
+                    System.out.println("Error processing: " + message);
+                }
+                Thread.sleep(500);  // Simulate processing delay
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();  // Handle thread interruption
+        }
+    }
+
+    // Simulate message processing with a random success/failure
+    private boolean processMessage(String message) {
+        return Math.random() > 0.1;  // 90% chance of success
+    }
+
+    // Getters for successful and error message counts
+    public int getSuccessfulMessages() {
+        return successfulMessages;
+    }
+
+    public int getErrorMessages() {
+        return errorMessages;
+    }
+}
