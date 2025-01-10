@@ -1,0 +1,52 @@
+Message-Driven Application
+This application will include three main components:
+
+MessageQueue: A thread-safe queue to store messages.
+Producer: A class that produces messages and adds them to the queue.
+Consumer: A class that consumes messages and processes them, tracking success and errors.
+
+
+=============================================================================
+
+MessageQueue Class
+The MessageQueue class will be responsible for handling the storage and synchronization of messages between the producer and the consumer.
+
+=============================================================================
+
+Producer Class
+The Producer class will generate messages and add them to the message queue.
+
+=============================================================================
+Consumer Class
+The Consumer class will consume messages from the message queue, process them, and track the number of successful and failed message processes.
+
+==============================================================================
+
+Main Application
+The main class will set up the message queue, start the producer and consumer threads, and run the simulation for a specified time.
+
+=================================================================================
+Unit Tests
+We will use JUnit 5 for unit testing the application. The tests will simulate both successful and failure scenarios.
+
+Maven Dependencies for JUnit 5
+If you're using Maven, add the following dependencies to your pom.xml for JUnit 5:
+
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.1</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.1</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+
+=====================================================================================
+  
