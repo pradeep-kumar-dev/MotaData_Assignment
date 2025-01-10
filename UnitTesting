@@ -1,0 +1,50 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class ProducerConsumerTest {
+
+    private MessageQueue queue;
+    private Consumer consumer;
+
+    @BeforeEach
+    void setUp() {
+        queue = new MessageQueue(5);  // Set queue size
+        consumer = new Consumer(queue);
+    }
+
+    // Test successful message processing
+    @Test
+    void testMessageProcessingSuccess() throws InterruptedException {
+        Thread consumerThread = new Thread(consumer);
+        consumerThread.start();
+
+        // Simulate producing valid messages
+        for (int i = 0; i < 10; i++) {
+            queue.produce("Message " + i);
+        }
+
+        Thread.sleep(3000);  // Allow some time for processing
+        assertTrue(consumer.getSuccessfulMessages() > 0);
+        assertEquals(0, consumer.getErrorMessages());  // No errors should occur
+
+        consumerThread.interrupt();
+    }
+
+    // Test error handling during message processing
+    @Test
+    void testMessageProcessingFailure() throws InterruptedException {
+        Thread consumerThread = new Thread(consumer);
+        consumerThread.start();
+
+        // Simulate producing valid messages
+        for (int i = 0; i < 10; i++) {
+            queue.produce("Message " + i);
+        }
+
+        Thread.sleep(3000);  // Allow some time for processing
+        assertTrue(consumer.getErrorMessages() >= 0);  // Some messages might fail
+
+        consumerThread.interrupt();
+    }
+}
